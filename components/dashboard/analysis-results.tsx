@@ -148,7 +148,7 @@ export function AnalysisResults() {
       <div className="max-w-7xl mx-auto px-6 py-12 lg:px-8">
 
         {/* Hero Header - matching the screenshot */}
-        <div className="mb-16">
+        <div className="mb-16 animate-fade-in-up">
           <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-8">
             — CAREER DIAGNOSTIC REPORT
           </div>
@@ -210,7 +210,7 @@ export function AnalysisResults() {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-border border border-border mb-16">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-border border border-border mb-16 stagger-children">
           <div className="bg-background p-6 lg:p-8">
             <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-4">TIME-TO-READINESS</div>
             <div className="font-serif text-2xl md:text-3xl">{analysis.careerInsights.timeToReady}</div>
@@ -254,7 +254,7 @@ export function AnalysisResults() {
 
         {/* Tab Content */}
         {activeTab === "gaps" && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-border border border-border">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-border border border-border stagger-children">
             {analysis.skillGaps.map((gap, i) => (
               <div key={i} className={`p-8 ${severityBg(gap.severity)}`}>
                 <div className="flex items-start justify-between mb-4">
@@ -277,7 +277,7 @@ export function AnalysisResults() {
         )}
 
         {activeTab === "strengths" && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-border border border-border">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-border border border-border stagger-children">
             {analysis.strengths.map((str, i) => (
               <div key={i} className="bg-background p-8">
                 <div className="flex items-start justify-between mb-4">

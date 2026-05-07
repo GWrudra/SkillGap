@@ -161,7 +161,7 @@ export function DashboardOverview({ user, profile, skillGaps, learningPaths }: O
 
       <div className="max-w-7xl mx-auto px-6 py-12 lg:px-8">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16 animate-fade-in-up">
           <div>
             <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-6">
               — DASHBOARD / {formattedDate}
@@ -196,7 +196,7 @@ export function DashboardOverview({ user, profile, skillGaps, learningPaths }: O
         </div>
 
         {/* Main Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-px bg-border border border-border">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-px bg-border border border-border stagger-children">
           
           {/* Left panel: Latest Readiness */}
           <div className="bg-background md:col-span-6 p-8 lg:p-12 flex flex-col justify-between min-h-[400px]">

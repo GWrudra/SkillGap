@@ -40,10 +40,10 @@ export function Hero() {
                 </svg>
               </Link>
               <Link
-                href="/pathways"
+                href="/auth/login"
                 className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.1em] text-foreground transition-colors hover:text-foreground/70"
               >
-                Explore Career Pathways
+                Already have an account? Sign In
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M3 7H11M11 7L7 3M11 7L7 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
