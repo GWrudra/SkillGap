@@ -31,14 +31,6 @@ export function CTA() {
 
           {/* Right Column */}
           <div className="flex flex-col justify-center lg:items-end">
-            <div className="flex items-start gap-3">
-              <Sparkles className="h-5 w-5 text-accent" />
-              <div className="text-sm text-muted-foreground">
-                <p className="uppercase tracking-wide">Powered by Claude Sonnet 4.5.</p>
-                <p className="mt-1">Your data is private and never sold.</p>
-                <p>7-day free analysis history.</p>
-              </div>
-            </div>
           </div>
         </div>
       </div>
