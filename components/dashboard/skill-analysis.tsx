@@ -101,6 +101,7 @@ const analyzeSkills = async (targetRole: string, currentSkills: string[]) => {
     else severity = "low"
 
     return {
+      id: Math.random().toString(36).substring(7),
       skill_name: req.skill,
       current_level: currentLevel,
       required_level: req.required,

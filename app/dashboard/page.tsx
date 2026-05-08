@@ -8,7 +8,7 @@ export default async function DashboardPage() {
     // Dummy data when Supabase is not configured
     return (
       <DashboardOverview
-        user={{ id: "demo", email: "demo@example.com" }}
+        user={{ id: "demo", email: "demo@example.com" } as any}
         profile={null}
         skillGaps={[]}
         learningPaths={[]}

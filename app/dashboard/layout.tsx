@@ -15,7 +15,7 @@ export default async function DashboardLayout({
     user = authUser
   } else {
     // Demo user when Supabase not configured
-    user = { id: "demo", email: "demo@example.com" }
+    user = { id: "demo", email: "demo@example.com" } as any
   }
 
   if (!user) {
