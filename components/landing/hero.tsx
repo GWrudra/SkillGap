@@ -1,8 +1,47 @@
 "use client"
 
 import Link from "next/link"
+import { useState, useEffect } from "react"
+
+const TRENDING_ROLES = [
+  { role: "Machine Learning Engineer", time: "9 MO" },
+  { role: "Frontend Developer", time: "6 MO" },
+  { role: "Product Manager", time: "11 MO" },
+  { role: "Data Scientist", time: "10 MO" },
+  { role: "Cloud Architect", time: "14 MO" }
+]
 
 export function Hero() {
+  const [analysesCount, setAnalysesCount] = useState(1284)
+  const [readinessScore, setReadinessScore] = useState(72)
+  const [percentage, setPercentage] = useState(12.4)
+  const [currentRoleIndex, setCurrentRoleIndex] = useState(0)
+
+  useEffect(() => {
+    // Simulate live updating data
+    const interval = setInterval(() => {
+      setAnalysesCount(prev => prev + Math.floor(Math.random() * 3))
+      
+      // Occasionally update the other stats
+      if (Math.random() > 0.7) {
+        setReadinessScore(prev => {
+          const newScore = prev + (Math.random() > 0.5 ? 1 : -1)
+          return Math.min(Math.max(newScore, 65), 85) // Keep between 65 and 85
+        })
+        setPercentage(prev => {
+          const newPerc = prev + (Math.random() * 0.4 - 0.2)
+          return Number(newPerc.toFixed(1))
+        })
+      }
+
+      // Rotate roles occasionally
+      if (Math.random() > 0.8) {
+        setCurrentRoleIndex(prev => (prev + 1) % TRENDING_ROLES.length)
+      }
+    }, 2500)
+
+    return () => clearInterval(interval)
+  }, [])
   return (
     <section className="relative w-full overflow-hidden px-6 pb-8 pt-8 md:pb-12 md:pt-12">
       <div className="mx-auto max-w-7xl">
@@ -57,25 +96,29 @@ export function Hero() {
             <div className="bg-[#1a1a1a] p-6 text-white">
               <span className="text-[10px] uppercase tracking-[0.2em] text-white/60">Live Index</span>
               <div className="mt-3 flex items-baseline gap-2">
-                <span className="font-serif text-5xl font-light">72</span>
+                <span className="font-serif text-5xl font-light">{readinessScore}</span>
                 <span className="text-xs text-white/60">/100 AVG READINESS</span>
               </div>
               <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-4">
-                <span className="text-xs text-white/60">1,284 ANALYSES</span>
+                <span className="text-xs text-white/60">{analysesCount.toLocaleString()} ANALYSES</span>
                 <span className="flex items-center gap-1 text-xs text-green-400">
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                     <path d="M6 9V3M6 3L3 6M6 3L9 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
-                  12.4%
+                  {percentage}%
                 </span>
               </div>
             </div>
 
             {/* Top Role Card */}
-            <div className="border border-border bg-card p-6">
+            <div className="border border-border bg-card p-6 min-h-[140px] flex flex-col justify-center">
               <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Top Role Searched</span>
-              <h3 className="mt-2 font-serif text-xl">Machine Learning Engineer</h3>
-              <span className="mt-2 block text-xs text-muted-foreground">TIME-TO-READINESS: 9 MO (MEDIAN)</span>
+              <h3 className="mt-2 font-serif text-xl animate-fade-in" key={`role-${currentRoleIndex}`}>
+                {TRENDING_ROLES[currentRoleIndex].role}
+              </h3>
+              <span className="mt-2 block text-xs text-muted-foreground animate-fade-in" key={`time-${currentRoleIndex}`}>
+                TIME-TO-READINESS: {TRENDING_ROLES[currentRoleIndex].time} (MEDIAN)
+              </span>
             </div>
           </div>
         </div>
