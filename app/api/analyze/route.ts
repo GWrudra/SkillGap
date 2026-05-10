@@ -300,19 +300,48 @@ function generateFallbackAnalysis(skills: string[], targetRole: string, experien
 
     let allForSkill: Array<any> = []
 
-    if (styleLower === "reading" && readingDB[skill]) {
-      allForSkill = readingDB[skill].map(r => ({ ...r, type: "reading" }))
-    } else if (styleLower === "project" && projectDB[skill]) {
-      allForSkill = projectDB[skill].map(r => ({ ...r, type: "project" }))
-    } else if (styleLower === "video" && resourceDB[skill]) {
-      allForSkill = resourceDB[skill].map(r => ({ ...r, type: "video" }))
-    }
-
-    // If no resources found for the specific style, fallback to any available
-    if (allForSkill.length === 0) {
-      if (resourceDB[skill]) allForSkill = resourceDB[skill].map(r => ({ ...r, type: "video" }))
-      else if (readingDB[skill]) allForSkill = readingDB[skill].map(r => ({ ...r, type: "reading" }))
-      else if (projectDB[skill]) allForSkill = projectDB[skill].map(r => ({ ...r, type: "project" }))
+    if (styleLower === "reading") {
+      if (readingDB[skill]) {
+        allForSkill = readingDB[skill].map(r => ({ ...r, type: "reading" }))
+      } else {
+        allForSkill = [{
+          title: `${skill} Official Documentation & Guides`,
+          provider: "Official Docs",
+          url: `https://www.google.com/search?q=${encodeURIComponent(skill + ' documentation tutorial')}`,
+          hours: 15,
+          cost: "free",
+          priority: "high",
+          type: "reading"
+        }]
+      }
+    } else if (styleLower === "project") {
+      if (projectDB[skill]) {
+        allForSkill = projectDB[skill].map(r => ({ ...r, type: "project" }))
+      } else {
+        allForSkill = [{
+          title: `Build a Real-World ${skill} Project`,
+          provider: "GitHub / Community",
+          url: `https://github.com/search?q=${encodeURIComponent(skill + ' tutorial project')}`,
+          hours: 40,
+          cost: "free",
+          priority: "high",
+          type: "project"
+        }]
+      }
+    } else {
+      if (resourceDB[skill]) {
+        allForSkill = resourceDB[skill].map(r => ({ ...r, type: "video" }))
+      } else {
+        allForSkill = [{
+          title: `${skill} Full Course for Beginners`,
+          provider: "YouTube Search",
+          url: `https://www.youtube.com/results?search_query=${encodeURIComponent(skill + ' full course')}`,
+          hours: 5,
+          cost: "free",
+          priority: "high",
+          type: "video"
+        }]
+      }
     }
     
     // If absolutely no resources found, skip
