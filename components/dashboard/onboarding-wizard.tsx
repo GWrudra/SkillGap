@@ -20,6 +20,8 @@ export function OnboardingWizard() {
   
   const [education, setEducation] = useState("")
   const [learningStyle, setLearningStyle] = useState("VIDEO")
+  const [certifications, setCertifications] = useState<string[]>([])
+  const [certInput, setCertInput] = useState("")
 
   // Load saved profile data on mount
   useEffect(() => {
@@ -34,6 +36,7 @@ export function OnboardingWizard() {
         if (data.currentStatus) setCurrentStatus(data.currentStatus)
         if (data.education) setEducation(data.education)
         if (data.learningStyle) setLearningStyle(data.learningStyle)
+        if (data.certifications?.length) setCertifications(data.certifications)
       }
     } catch {}
   }, [])
@@ -78,6 +81,17 @@ export function OnboardingWizard() {
     setSkills(skills.filter(s => s !== skill))
   }
 
+  const handleAddCert = (cert: string) => {
+    if (cert && !certifications.includes(cert)) {
+      setCertifications([...certifications, cert])
+      setCertInput("")
+    }
+  }
+
+  const handleRemoveCert = (cert: string) => {
+    setCertifications(certifications.filter(c => c !== cert))
+  }
+
   const handleNext = () => setStep(s => Math.min(3, s + 1))
   const handlePrev = () => setStep(s => Math.max(1, s - 1))
 
@@ -85,7 +99,7 @@ export function OnboardingWizard() {
     setIsAnalyzing(true)
     
     // Save profile data to localStorage
-    const profileData = { skills, targetRole, targetCategory, experience, currentStatus, education, learningStyle }
+    const profileData = { skills, targetRole, targetCategory, experience, currentStatus, education, learningStyle, certifications }
     localStorage.setItem("skillgap_profile", JSON.stringify(profileData))
     
     try {
@@ -99,6 +113,7 @@ export function OnboardingWizard() {
           currentStatus,
           education,
           learningStyle,
+          certifications,
         }),
       })
 
@@ -375,16 +390,32 @@ export function OnboardingWizard() {
 
                 <div className="mb-12">
                   <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground font-mono mb-4">CERTIFICATIONS (OPTIONAL)</div>
-                  <div className="flex items-center border border-border/50 bg-background">
+                  <div className="flex items-center border border-border/50 bg-background mb-4">
                     <input 
                       type="text" 
                       placeholder="e.g. AWS Solutions Architect" 
+                      value={certInput}
+                      onChange={(e) => setCertInput(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && handleAddCert(certInput)}
                       className="flex-1 bg-transparent px-4 py-4 outline-none placeholder:text-muted-foreground/50 font-sans text-sm"
                     />
-                    <button className="bg-foreground text-background px-8 py-4 text-[10px] uppercase tracking-[0.2em] hover:bg-foreground/90 transition-colors">
+                    <button 
+                      onClick={() => handleAddCert(certInput)}
+                      className="bg-foreground text-background px-8 py-4 text-[10px] uppercase tracking-[0.2em] hover:bg-foreground/90 transition-colors"
+                    >
                       ADD
                     </button>
                   </div>
+                  {certifications.length > 0 && (
+                    <div className="flex flex-wrap gap-2">
+                      {certifications.map(cert => (
+                        <div key={cert} className="bg-foreground text-background px-4 py-2 flex items-center gap-3 text-xs">
+                          <span>{cert}</span>
+                          <button onClick={() => handleRemoveCert(cert)} className="text-muted-foreground hover:text-background transition-colors text-lg leading-none">×</button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 <div>
@@ -421,14 +452,7 @@ export function OnboardingWizard() {
                     </div>
                     <div>
                       <div className="text-[10px] uppercase tracking-[0.2em] font-mono text-muted-foreground mb-2">YEARS EXP</div>
-                      <input
-                        type="number"
-                        min="0"
-                        max="50"
-                        value={experience}
-                        onChange={(e) => setExperience(e.target.value)}
-                        className="font-serif text-3xl bg-transparent border-b border-background/30 w-16 text-background outline-none focus:border-accent transition-colors text-center"
-                      />
+                      <div className="font-serif text-3xl text-center">{experience}</div>
                     </div>
                   </div>
                 </div>
