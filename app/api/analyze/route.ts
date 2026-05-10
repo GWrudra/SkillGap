@@ -113,18 +113,26 @@ function generateFallbackAnalysis(skills: string[], targetRole: string, experien
   ]
 
   // Build strengths from matched skills
-  const strengths = matchedSkills.slice(0, 5).map(skill => ({
-    skill,
-    level: Math.min(5, expYears >= 3 ? 4 : 3),
-    relevance: `Your ${skill} experience directly applies to ${targetRole} responsibilities. This is a strong foundation to build on.`,
-  }))
+  const strengths = matchedSkills.slice(0, 5).map((skill, index) => {
+    let baseLvl = expYears >= 4 ? 4 : expYears >= 1 ? 3 : 2;
+    let variance = (skill.length + index) % 2; // Adds 0 or 1
+    let finalLvl = Math.min(5, Math.max(3, baseLvl + variance));
+    
+    return {
+      skill,
+      level: finalLvl,
+      relevance: `Your ${skill} experience directly applies to ${targetRole} responsibilities. This is a strong foundation to build on.`,
+    };
+  })
 
   // Add any extra user skills as strengths
   const extraSkills = skills.filter(s => !allRequired.map(r => r.toLowerCase()).includes(s.toLowerCase()))
-  extraSkills.slice(0, 2).forEach(skill => {
+  extraSkills.slice(0, 3).forEach((skill, index) => {
+    let variance = (skill.length + index) % 2;
+    let finalLvl = Math.min(5, Math.max(3, (expYears >= 2 ? 3 : 2) + variance));
     strengths.push({
       skill,
-      level: 3,
+      level: finalLvl,
       relevance: `While not a primary requirement, ${skill} shows breadth and can be valuable for cross-functional collaboration.`,
     })
   })
@@ -290,36 +298,37 @@ function generateFallbackAnalysis(skills: string[], targetRole: string, experien
     if (learningPaths.length >= 10) break
     if (usedSkills.has(skill)) continue
 
-    // Pick resources based on learning style preference
-    let selectedResources: Array<{ title: string; provider: string; url: string; hours: number; cost: string; priority: "critical" | "high" | "medium" }> = []
+    let allForSkill: Array<any> = []
 
     if (styleLower === "reading" && readingDB[skill]) {
-      selectedResources = readingDB[skill]
+      allForSkill = readingDB[skill].map(r => ({ ...r, type: "reading" }))
     } else if (styleLower === "project" && projectDB[skill]) {
-      selectedResources = projectDB[skill]
+      allForSkill = projectDB[skill].map(r => ({ ...r, type: "project" }))
+    } else if (styleLower === "video" && resourceDB[skill]) {
+      allForSkill = resourceDB[skill].map(r => ({ ...r, type: "video" }))
     }
 
-    // Also add video resources from main DB
-    const videoResources = resourceDB[skill] || []
+    // If no resources found for the specific style, fallback to any available
+    if (allForSkill.length === 0) {
+      if (resourceDB[skill]) allForSkill = resourceDB[skill].map(r => ({ ...r, type: "video" }))
+      else if (readingDB[skill]) allForSkill = readingDB[skill].map(r => ({ ...r, type: "reading" }))
+      else if (projectDB[skill]) allForSkill = projectDB[skill].map(r => ({ ...r, type: "project" }))
+    }
     
-    // Prioritize preferred style, then add others
-    const allForSkill = [...selectedResources, ...videoResources]
-    
-    // If no preferred style found, just use video
+    // If absolutely no resources found, skip
     if (allForSkill.length === 0) continue
 
     for (const res of allForSkill.slice(0, 2)) {
       if (learningPaths.length >= 10) break
-      const resType = 'type' in res ? (res as { type: string }).type : (selectedResources.includes(res) ? styleLower : "video")
       learningPaths.push({
         title: res.title,
         provider: res.provider,
         url: res.url,
-        estimatedHours: res.hours,
+        estimatedHours: res.hours || res.estimatedHours || 10,
         cost: res.cost,
         priority: res.priority,
         skillsAddressed: [skill],
-        type: resType,
+        type: res.type,
       })
     }
     usedSkills.add(skill)

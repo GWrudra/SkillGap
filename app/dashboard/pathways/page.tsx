@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { ArrowLeft, ArrowRight, ExternalLink, TrendingUp, DollarSign, Code2, BarChart3, Palette, Shield, Brain, Database } from "lucide-react"
 
@@ -169,6 +169,22 @@ const careers = [
 
 export default function PathwaysPage() {
   const [filter, setFilter] = useState("ALL")
+  
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("skillgap_profile")
+      if (saved) {
+        const data = JSON.parse(saved)
+        if (data.targetRole) {
+          const matchedCareer = careers.find(c => c.title.toLowerCase() === data.targetRole.toLowerCase())
+          if (matchedCareer) {
+            setFilter(matchedCareer.category)
+          }
+        }
+      }
+    } catch {}
+  }, [])
+
   const categories = ["ALL", ...Array.from(new Set(careers.map(c => c.category)))]
   const filtered = filter === "ALL" ? careers : careers.filter(c => c.category === filter)
 
