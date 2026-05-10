@@ -351,6 +351,21 @@ function generateFallbackAnalysis(skills: string[], targetRole: string, experien
           type: "project"
         }]
       }
+      
+      // Add a YouTube video companion as requested by user
+      if (resourceDB[skill]) {
+        allForSkill.push({ ...resourceDB[skill][0], type: "video" })
+      } else {
+        allForSkill.push({
+          title: `${skill} Project Tutorial for Beginners`,
+          provider: "YouTube Search",
+          url: `https://www.youtube.com/results?search_query=${encodeURIComponent(skill + ' project tutorial')}`,
+          hours: 5,
+          cost: "free",
+          priority: "high",
+          type: "video"
+        })
+      }
     } else {
       if (resourceDB[skill]) {
         allForSkill = resourceDB[skill].map(r => ({ ...r, type: "video" }))
