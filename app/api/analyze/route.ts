@@ -82,9 +82,17 @@ function generateFallbackAnalysis(skills: string[], targetRole: string, experien
   const missingRequired = roleData.required.filter(s => !skillsLower.includes(s.toLowerCase()))
   const missingNice = roleData.nice.filter(s => !skillsLower.includes(s.toLowerCase()))
 
-  const expYears = parseInt(experience) || 1
-  const baseScore = Math.min(85, Math.round((matchedSkills.length / allRequired.length) * 70 + expYears * 3))
-  const readinessScore = Math.max(15, Math.min(95, baseScore))
+  const expYears = parseInt(experience) || 0
+  
+  const skillMatchScore = allRequired.length > 0 ? (matchedSkills.length / allRequired.length) * 55 : 0
+  const generalSkillScore = Math.min(25, skills.length * 2)
+  const expScore = Math.min(35, expYears * 6)
+  
+  const baseScore = Math.round(skillMatchScore + generalSkillScore + expScore)
+  
+  // Add a slight deterministic variance so identical sparse profiles don't always get exact same low score
+  const variance = (skills.length * 7 + targetRole.length * 3) % 14
+  const readinessScore = Math.max(12, Math.min(98, baseScore + (baseScore < 40 ? variance : 0)))
 
   // Build skill gaps
   const skillGaps = [

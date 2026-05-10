@@ -45,14 +45,27 @@ export function OnboardingWizard() {
     "Writing", "C++", "Go"
   ]
 
-  const roles = [
+  const [roleSearch, setRoleSearch] = useState("")
+
+  const baseRoles = [
     { name: "Software Engineer", category: "TECH" },
     { name: "Frontend Engineer", category: "TECH" },
     { name: "Backend Engineer", category: "TECH" },
     { name: "Full-Stack Developer", category: "TECH" },
+    { name: "Mobile Developer", category: "TECH" },
+    { name: "DevOps Engineer", category: "TECH" },
+    { name: "Cloud Architect", category: "TECH" },
     { name: "Data Scientist", category: "TECH / ANALYTICS" },
     { name: "Data Analyst", category: "ANALYTICS" },
+    { name: "Data Engineer", category: "TECH / DATA" },
+    { name: "Machine Learning Engineer", category: "TECH / AI" },
+    { name: "Product Manager", category: "PRODUCT" },
+    { name: "UI/UX Designer", category: "DESIGN" },
+    { name: "Cybersecurity Analyst", category: "SECURITY" },
+    { name: "Systems Analyst", category: "TECH / IT" },
   ]
+
+  const filteredRoles = baseRoles.filter(r => r.name.toLowerCase().includes(roleSearch.toLowerCase()))
 
   const handleAddSkill = (skill: string) => {
     if (skill && !skills.includes(skill)) {
@@ -261,11 +274,13 @@ export function OnboardingWizard() {
                     <input 
                       type="text" 
                       placeholder="Search roles..." 
+                      value={roleSearch}
+                      onChange={(e) => setRoleSearch(e.target.value)}
                       className="w-full bg-transparent outline-none placeholder:text-muted-foreground/50 text-sm font-sans"
                     />
                   </div>
-                  <div className="flex flex-col">
-                    {roles.map(role => (
+                  <div className="flex flex-col max-h-[300px] overflow-y-auto">
+                    {filteredRoles.map(role => (
                       <button 
                         key={role.name}
                         onClick={() => {
@@ -282,6 +297,20 @@ export function OnboardingWizard() {
                         </span>
                       </button>
                     ))}
+                    {roleSearch && !filteredRoles.some(r => r.name.toLowerCase() === roleSearch.toLowerCase()) && (
+                      <button 
+                        onClick={() => {
+                          setTargetRole(roleSearch)
+                          setTargetCategory("CUSTOM ROLE")
+                        }}
+                        className={`flex items-center justify-between p-6 border-b border-border/50 last:border-0 text-left transition-colors hover:bg-muted`}
+                      >
+                        <span className="font-serif text-xl">Use "{roleSearch}"</span>
+                        <span className="text-[10px] uppercase tracking-[0.2em] font-mono text-muted-foreground">
+                          CUSTOM ROLE
+                        </span>
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
