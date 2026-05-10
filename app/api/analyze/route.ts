@@ -294,6 +294,7 @@ function generateFallbackAnalysis(skills: string[], targetRole: string, experien
     "TensorFlow": [{ title: "TensorFlow Core", provider: "TensorFlow", url: "https://www.tensorflow.org/guide", hours: 15, cost: "free", priority: "high" }],
     "Deep Learning": [{ title: "Deep Learning Book", provider: "Ian Goodfellow", url: "https://www.deeplearningbook.org/", hours: 30, cost: "free", priority: "high" }],
     "NLP": [{ title: "NLP Tutorial", provider: "GeeksforGeeks", url: "https://www.geeksforgeeks.org/natural-language-processing-nlp-tutorial/", hours: 15, cost: "free", priority: "high" }],
+  }
 
   // Project-based resources
   const projectDB: Record<string, Array<{ title: string; provider: string; url: string; hours: number; cost: "free"; priority: "critical" | "high" | "medium" }>> = {
