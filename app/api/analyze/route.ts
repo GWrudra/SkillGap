@@ -278,7 +278,22 @@ function generateFallbackAnalysis(skills: string[], targetRole: string, experien
     "Machine Learning": [{ title: "ML Tutorial - GeeksforGeeks", provider: "GeeksforGeeks", url: "https://www.geeksforgeeks.org/machine-learning/", hours: 25, cost: "free", priority: "critical" }],
     "Docker": [{ title: "Docker Docs - Get Started", provider: "Docker Docs", url: "https://docs.docker.com/get-started/", hours: 5, cost: "free", priority: "high" }],
     "Git": [{ title: "Git Tutorial - Atlassian", provider: "Atlassian", url: "https://www.atlassian.com/git/tutorials", hours: 5, cost: "free", priority: "high" }],
-  }
+    "Algorithms": [{ title: "Algorithms Tutorial", provider: "GeeksforGeeks", url: "https://www.geeksforgeeks.org/fundamentals-of-algorithms/", hours: 20, cost: "free", priority: "critical" }],
+    "REST APIs": [{ title: "REST API Tutorial", provider: "REST API Tutorial", url: "https://restfulapi.net/", hours: 5, cost: "free", priority: "high" }],
+    "AWS": [{ title: "AWS Documentation", provider: "AWS", url: "https://docs.aws.amazon.com/", hours: 20, cost: "free", priority: "high" }],
+    "Kubernetes": [{ title: "Kubernetes Documentation", provider: "Kubernetes", url: "https://kubernetes.io/docs/home/", hours: 15, cost: "free", priority: "high" }],
+    "Testing": [{ title: "Software Testing Tutorial", provider: "Guru99", url: "https://www.guru99.com/software-testing.html", hours: 10, cost: "free", priority: "high" }],
+    "Responsive Design": [{ title: "Responsive Web Design Basics", provider: "web.dev", url: "https://web.dev/learn/design/", hours: 8, cost: "free", priority: "high" }],
+    "Web Performance": [{ title: "Learn Web Performance", provider: "web.dev", url: "https://web.dev/learn/performance/", hours: 10, cost: "free", priority: "high" }],
+    "Database Design": [{ title: "Database Design Tutorial", provider: "GeeksforGeeks", url: "https://www.geeksforgeeks.org/database-management-system-tutorial/", hours: 15, cost: "free", priority: "high" }],
+    "Microservices": [{ title: "Microservices Guide", provider: "Martin Fowler", url: "https://martinfowler.com/microservices/", hours: 5, cost: "free", priority: "high" }],
+    "Statistics": [{ title: "Statistics Tutorial", provider: "GeeksforGeeks", url: "https://www.geeksforgeeks.org/statistics/", hours: 15, cost: "free", priority: "high" }],
+    "Data Visualization": [{ title: "Data Visualization Guide", provider: "Tableau", url: "https://www.tableau.com/learn/articles/data-visualization", hours: 5, cost: "free", priority: "high" }],
+    "Pandas": [{ title: "Pandas User Guide", provider: "Pandas Docs", url: "https://pandas.pydata.org/docs/user_guide/index.html", hours: 10, cost: "free", priority: "high" }],
+    "NumPy": [{ title: "NumPy Quickstart", provider: "NumPy Docs", url: "https://numpy.org/doc/stable/user/quickstart.html", hours: 8, cost: "free", priority: "high" }],
+    "TensorFlow": [{ title: "TensorFlow Core", provider: "TensorFlow", url: "https://www.tensorflow.org/guide", hours: 15, cost: "free", priority: "high" }],
+    "Deep Learning": [{ title: "Deep Learning Book", provider: "Ian Goodfellow", url: "https://www.deeplearningbook.org/", hours: 30, cost: "free", priority: "high" }],
+    "NLP": [{ title: "NLP Tutorial", provider: "GeeksforGeeks", url: "https://www.geeksforgeeks.org/natural-language-processing-nlp-tutorial/", hours: 15, cost: "free", priority: "high" }],
 
   // Project-based resources
   const projectDB: Record<string, Array<{ title: string; provider: string; url: string; hours: number; cost: "free"; priority: "critical" | "high" | "medium" }>> = {
@@ -290,6 +305,13 @@ function generateFallbackAnalysis(skills: string[], targetRole: string, experien
     "Data Structures": [{ title: "LeetCode Problem Sets", provider: "LeetCode", url: "https://leetcode.com/problemset/", hours: 50, cost: "free", priority: "critical" }, { title: "NeetCode 150 Roadmap", provider: "NeetCode", url: "https://neetcode.io/roadmap", hours: 40, cost: "free", priority: "critical" }],
     "CSS": [{ title: "100 Days CSS Challenge", provider: "100DaysCSS", url: "https://100dayscss.com/", hours: 20, cost: "free", priority: "high" }],
     "Machine Learning": [{ title: "Kaggle Competitions & Learn", provider: "Kaggle", url: "https://www.kaggle.com/learn", hours: 40, cost: "free", priority: "critical" }],
+    "AWS": [{ title: "AWS Hands-on Tutorials", provider: "AWS", url: "https://aws.amazon.com/getting-started/hands-on/", hours: 20, cost: "free", priority: "high" }],
+    "Kubernetes": [{ title: "Kubernetes Tutorials", provider: "Kubernetes", url: "https://kubernetes.io/docs/tutorials/", hours: 15, cost: "free", priority: "high" }],
+    "REST APIs": [{ title: "Build a REST API", provider: "The Odin Project", url: "https://www.theodinproject.com/lessons/nodejs-api-basics", hours: 10, cost: "free", priority: "high" }],
+    "Algorithms": [{ title: "LeetCode Problem Sets", provider: "LeetCode", url: "https://leetcode.com/problemset/", hours: 50, cost: "free", priority: "critical" }],
+    "Database Design": [{ title: "Database Design Projects", provider: "HackerRank", url: "https://www.hackerrank.com/domains/sql", hours: 15, cost: "free", priority: "high" }],
+    "Pandas": [{ title: "Pandas Practice", provider: "Kaggle", url: "https://www.kaggle.com/learn/pandas", hours: 10, cost: "free", priority: "high" }],
+    "TensorFlow": [{ title: "TensorFlow Tutorials", provider: "TensorFlow", url: "https://www.tensorflow.org/tutorials", hours: 20, cost: "free", priority: "high" }],
   }
 
   const styleLower = learningStyle.toLowerCase()
